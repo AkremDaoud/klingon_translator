@@ -5,6 +5,7 @@ A tool allowing to translate a name written in English to Klingon and find out i
 ## Requirements
 
 * [**stapi-python**](https://github.com/mklucz/stapi-python) A client for the Star Trek API
+* [**requests**] (https://github.com/requests/requests) Requests: HTTP for Humans
 * [**Git**](https://git-scm.com) Source Control
 
 ## Setup

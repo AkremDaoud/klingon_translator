@@ -62,7 +62,7 @@ if __name__ == '__main__':
         #loafd language definition
         execution_result = kinglon_lang.load_languages_defitions()
         if execution_result == 0:
-            alphabet_klingon = kinglon_lang.letters.keys()
+            alphabet_klingon = list(kinglon_lang.letters.keys())
             # Parse the input message 
             num_iterations = random.randint(100, 1000)
             str_msg = "Number of processed iteration: [%d]" % num_iterations

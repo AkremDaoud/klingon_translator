@@ -129,7 +129,7 @@ if __name__ == '__main__':
                 if execution_result == 0:
                     rest_client = stapi.RestClient()
                     # only for test
-                    input_text = "ASMA0000012319"
+                    input_text = "ASMA0000012543"
                     species = rest_client.species.get(input_text)
                     #print all data
                     print (hex_text)
