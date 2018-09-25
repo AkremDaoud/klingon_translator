@@ -133,8 +133,8 @@ if __name__ == '__main__':
                     input_text = "ASMA0000012319"
                     species = rest_client.species.get(input_text)
                     #print all data
-                    print hex_text
-                    print species.name
+                    print (hex_text)
+                    print (species.name)
     except ValueError as error:
         LOG_CMN.critical(str(error))
         execution_result = 1
