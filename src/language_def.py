@@ -100,6 +100,8 @@ class LanguageDef():
                 # Key not found : exit with error
                 log_msg = "Unknow letter [%s] !!" % input_text[index]
                 LOG_CMN.error(log_msg)
+                log_msg = "Unable to translate the input text : [%s] !!" % input_text
+                LOG_CMN.error(log_msg)
                 ret = 1
                 hex_text = ''
 
