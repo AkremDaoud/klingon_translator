@@ -41,9 +41,21 @@ def generate_random_string_except_list(forbidden_letters, string_size):
 
 
 if __name__ == '__main__':
-    try:
-        LOG_CMN.setLevel(logging.DEBUG)
+    # Set logger type
+    FORMATTER = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
+    # File handler logger
+    if not os.path.exists(LOG_FILE_PATH):
+        os.makedirs(LOG_FILE_PATH)
+    log_file_path = os.path.normpath('%s/%s' % (LOG_FILE_PATH, LOGGER_NAME))
+    HDLR_LOGGER = logging.FileHandler(log_file_path)
+    HDLR_LOGGER.setFormatter(FORMATTER)
+    LOG_CMN.addHandler(HDLR_LOGGER)
+    LOG_CMN.setLevel(logging.DEBUG)
+    execution_result = 0
+
+    try:
         # load language 
         kinglon_lang = LanguageDef()
         kinglon_lang.set_path_def_lang_file('../src/%s' %CONFIG_FILE_LANG_DEF_XML)
