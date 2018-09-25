@@ -31,6 +31,30 @@ class MultipleOption(Option):
         else:
             Option.take_action(self, action, dest, opt, value, values, parser)
 
+
+def GetSpecies(input_text):
+    """ Get the species of the input text """
+    criteria = stapi.search_criteria.CharacterSearchCriteria(0, 50, "",alternateReality=None, deceased=None, fictionalCharacter=None, gender=None, hologram=None, mirror=None, name=input_text)
+    response = stapi.RestClient().character.search(criteria)
+    characters_list = response['characters']
+    species_list = []
+    for character in characters_list:
+        uid = character['uid']
+        result = stapi.RestClient().character.get(uid)
+        if len(result.characterSpecies) > 0 :
+            for specie in result.characterSpecies:
+                specicy = specie['name']
+                if specicy not in species_list:
+                    species_list.append(specicy)
+    str_species = ''
+    for specicy in species_list:
+        if len(str_species) > 0:
+            str_species += ', '
+        str_species += specicy
+    if len(str_species) == 0 :
+        str_species = 'UNKNOWN'
+    
+    return str_species
 #
 # main entry point
 #
@@ -127,13 +151,15 @@ if __name__ == '__main__':
                 # Parse the input message 
                 execution_result, hex_text= kinglon_lang.parse_text(input_text)
                 if execution_result == 0:
-                    rest_client = stapi.RestClient()
-                    # only for test
-                    input_text = "ASMA0000012543"
-                    species = rest_client.species.get(input_text)
-                    #print all data
-                    print (hex_text)
-                    print (species.name)
+                    str_species = GetSpecies(input_text)
+                    line_1 = '- Hex text = %s' % hex_text
+                    line_2 = '- Species = %s' % str_species
+                    if LOG_CMN.getEffectiveLevel() > logging.INFO:
+                        print(line_1)
+                        print (line_2)
+                    else:
+                        LOG_CMN.info(line_1)
+                        LOG_CMN.info(line_2)
     except ValueError as error:
         LOG_CMN.critical(str(error))
         execution_result = 1
