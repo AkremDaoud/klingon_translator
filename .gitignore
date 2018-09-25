@@ -1,0 +1,6 @@
+.settings/
+traces/
+*.pyc
+*.log
+*.project
+*.pydevproject
