@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 """
-Main Translation scipt
+Test script allowing to test the language parser
 
-Pre-requisites:
+Prerequisites:
  - Python 3.6.4
 """
 
