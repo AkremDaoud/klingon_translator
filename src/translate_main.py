@@ -3,7 +3,7 @@
 """
 Main Translation scipt
 
-Pre-requisites:
+Prerequisites:
  - Python 3.6.4
 """
 
@@ -53,8 +53,10 @@ def GetSpecies(input_text):
         str_species += specicy
     if len(str_species) == 0 :
         str_species = 'UNKNOWN'
-    
+
     return str_species
+
+
 #
 # main entry point
 #
@@ -149,14 +151,14 @@ if __name__ == '__main__':
             execution_result = kinglon_lang.load_languages_defitions()
             if execution_result == 0:
                 # Parse the input message 
-                execution_result, hex_text= kinglon_lang.parse_text(input_text)
+                execution_result, hex_text = kinglon_lang.parse_text(input_text)
                 if execution_result == 0:
                     str_species = GetSpecies(input_text)
                     line_1 = '- Hex text = %s' % hex_text
-                    line_2 = '- Species = %s' % str_species
+                    line_2 = '- Species  = %s' % str_species
                     if LOG_CMN.getEffectiveLevel() > logging.INFO:
                         print(line_1)
-                        print (line_2)
+                        print(line_2)
                     else:
                         LOG_CMN.info(line_1)
                         LOG_CMN.info(line_2)
