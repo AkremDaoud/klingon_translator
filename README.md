@@ -22,6 +22,7 @@ In the first parameter is the name of any Star Treck character (it can have spac
 As output, his name will be translated in Klingon written using the correspondent hexadecimal numbers and his species.
 
 ```bash
+$ cd src
 $ python translate_main.py Uhura
 0xF8E5 0xF8D6 0xF8E5 0xF8E1 0xF8D0
 Human 
