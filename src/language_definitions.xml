@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<alphabet_definition>
+	<!--List all the managed letters of the plqad language (Klingon)-->
+	<letter value="a" hex_code="0xF8D0"></letter>
+	<letter value="b" hex_code="0xF8D1"></letter>
+	<letter value="ch" hex_code="0xF8D2"></letter>
+	<letter value="D" hex_code="0xF8D3"></letter>
+	<letter value="e" hex_code="0xF8D4"></letter>
+	<letter value="gh" hex_code="0xF8D5"></letter>
+	<letter value="H" hex_code="0xF8D6"></letter>
+	<letter value="I" hex_code="0xF8D7"></letter>
+	<letter value="j" hex_code="0xF8D8"></letter>
+	<letter value="l" hex_code="0xF8D9"></letter>
+	<letter value="m" hex_code="0xF8DA"></letter>
+	<letter value="n" hex_code="0xF8DB"></letter>
+	<letter value="ng" hex_code="0xF8DC"></letter>
+	<letter value="o" hex_code="0xF8DD"></letter>
+	<letter value="p" hex_code="0xF8DE"></letter>
+	<letter value="q" hex_code="0xF8DF"></letter>
+	<letter value="Q" hex_code="0xF8E0"></letter>
+	<letter value="r" hex_code="0xF8E1"></letter>
+	<letter value="S" hex_code="0xF8E2"></letter>
+	<letter value="t" hex_code="0xF8E3"></letter>
+	<letter value="tlh" hex_code="0xF8E4"></letter>
+	<letter value="u" hex_code="0xF8E5"></letter>
+	<letter value="v" hex_code="0xF8E6"></letter>
+	<letter value="w" hex_code="0xF8E7"></letter>
+	<letter value="y" hex_code="0xF8E8"></letter>
+	<letter value="'" hex_code="0xF8E9"></letter>
+	<letter value="0" hex_code="0xF8F0"></letter>
+	<letter value="1" hex_code="0xF8F1"></letter>
+	<letter value="2" hex_code="0xF8F2"></letter>
+	<letter value="3" hex_code="0xF8F3"></letter>
+	<letter value="4" hex_code="0xF8F4"></letter>
+	<letter value="5" hex_code="0xF8F5"></letter>
+	<letter value="6" hex_code="0xF8F6"></letter>
+	<letter value="7" hex_code="0xF8F7"></letter>
+	<letter value="8" hex_code="0xF8F8"></letter>
+	<letter value="9" hex_code="0xF8F9"></letter>
+	<letter value="," hex_code="0xF8FD"></letter>
+	<letter value="." hex_code="0xF8FE"></letter>
+	<letter value=" " hex_code="0x0020"></letter>
+</alphabet_definition>
