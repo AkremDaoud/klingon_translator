@@ -18,26 +18,99 @@ import string
 import random
 
 
-def generate_random_string_from_list(allowed_letters, string_size):
-    """ Generate random string using the input allowed list"""
-    ret_str = ''
-    for i in range(string_size):
-        ret_str += allowed_letters[random.randint(0,len(allowed_letters)-1)]
-    
-    return ret_str
+class LanguageTest():
+    """ Language tests"""
+    def __init__(self, num_iterations, alphabet_klingon):
+        self.num_iterations = num_iterations
+        self.alphabet_klingon = alphabet_klingon
 
+    def generate_random_string_from_list(self, allowed_letters, string_size, add_unknown_letter=False):
+        """ Generate random string using the input allowed list. 
+            An unknown letter could be added at the end of the string"""
+        ret_str = ''
+        length_unknow = len(allowed_letters[0]) + 1
+        if add_unknown_letter == False:
+            size = string_size
+        else:
+            size = string_size - length_unknow
+        for i in range(size):
+            ret_str += allowed_letters[random.randint(0,len(allowed_letters)-1)]
+        # Add the unknow letter
+        if add_unknown_letter == True:
+            i = 0
+            while i < length_unknow:
+                character = random.choice(string.ascii_letters + string.digits + string.punctuation)
+                if character.lower() not in allowed_letters and character.upper() not in allowed_letters:
+                    ret_str += character
+                    i += 1
+        return ret_str
 
-def generate_random_string_except_list(forbidden_letters, string_size):
-    """ Generate random string execpting the letters in the input forbidden list"""
-    ret_str = ''
-    i = 0
-    while i < string_size:
-        character = random.choice(string.ascii_letters + string.digits + string.punctuation)
-        if character.lower() not in forbidden_letters and character.upper() not in forbidden_letters:
-            ret_str += character
-            i += 1
-    
-    return ret_str
+    def generate_random_string_except_list(self, forbidden_letters, string_size):
+        """ Generate random string execpting the letters in the input forbidden list"""
+        ret_str = ''
+        i = 0
+        while i < string_size:
+            character = random.choice(string.ascii_letters + string.digits + string.punctuation)
+            if character.lower() not in forbidden_letters and character.upper() not in forbidden_letters:
+                ret_str += character
+                i += 1
+        
+        return ret_str
+
+    def process_success_tests(self):
+        """ Process successful tests : these tests are supposed to be accepted"""
+        LOG_CMN.info("** Start successfull tests : all texts should be accepted")
+        execution_result = 0
+        for i in range(self.num_iterations):
+            str_msg = "--- Test OK %d -----" % (i + 1)
+            LOG_CMN.info(str_msg)
+            string_size = random.randint(1, 100)
+            input_text = self.generate_random_string_from_list(self.alphabet_klingon, string_size)
+            exec_ret, hex_text= kinglon_lang.parse_text(input_text)
+            if exec_ret == 0:
+                str_msg = " - English text = [%s]" % input_text
+                LOG_CMN.info(str_msg)
+                str_msg = " - Hex result = [%s]" % hex_text
+                LOG_CMN.info(str_msg)
+            else:
+                str_msg = "Unable to parse the text = [%s]" % input_text
+                LOG_CMN.error(str_msg)
+                execution_result = 1
+                break
+
+        return execution_result
+
+    def process_failed_tests(self, is_random_except_one_char=False):
+        """ Process failed tests : all texts should be rejected """
+        LOG_CMN.info("** Start failed tests : all texts should be rejected")
+        if is_random_except_one_char == False:
+            trace_txt = '--- Test (KO 1)'
+            LOG_CMN.info("** The whole text inculeds unknow letters.")
+        else:
+            trace_txt = '--- Test (KO 2)'
+            LOG_CMN.info("** The text only contains one unknow letter.")
+
+        execution_result = 0
+
+        for i in range(self.num_iterations):
+            str_msg = "%s %d -----" % (trace_txt, (i + 1))
+            LOG_CMN.info(str_msg)
+            string_size = random.randint(1, 100)
+            if is_random_except_one_char == False:
+                input_text = self.generate_random_string_except_list(self.alphabet_klingon, string_size)
+            else:
+                input_text = self.generate_random_string_from_list(self.alphabet_klingon, string_size, True)
+            exec_ret, hex_text= kinglon_lang.parse_text(input_text)
+            if exec_ret == 1:
+                str_msg = " - Erroneous text [%s] was detected" % input_text
+                LOG_CMN.info(str_msg)
+            else:
+                str_msg = "Erroneous text [%s] was not detected" % input_text
+                LOG_CMN.error(str_msg)
+                execution_result = 1
+                break
+
+        return execution_result
 
 
 if __name__ == '__main__':
@@ -62,44 +135,17 @@ if __name__ == '__main__':
         #loafd language definition
         execution_result = kinglon_lang.load_languages_defitions()
         if execution_result == 0:
-            alphabet_klingon = list(kinglon_lang.letters.keys())
+            alphabet_klingon = sorted(kinglon_lang.letters, key=len, reverse=True)
             # Parse the input message 
-            num_iterations = random.randint(100, 1000)
+            num_iterations = random.randint(100, 10000)
             str_msg = "Number of processed iteration: [%d]" % num_iterations
             LOG_CMN.info(str_msg)
-            LOG_CMN.info("** Start successfull Tests : all texts should be accepted")
-            for i in range(num_iterations):
-                str_msg = "--- Test %d -----" % (i + 1)
-                LOG_CMN.info(str_msg)
-                string_size = random.randint(1, 100)
-                input_text = generate_random_string_from_list(alphabet_klingon, string_size)
-                exec_ret, hex_text= kinglon_lang.parse_text(input_text)
-                if exec_ret == 0:
-                    str_msg = " - English text = [%s]" % input_text
-                    LOG_CMN.info(str_msg)
-                    str_msg = " - Hex result = [%s]" % hex_text
-                    LOG_CMN.info(str_msg)
-                else:
-                    str_msg = "Unable to parse the text = [%s]" % input_text
-                    LOG_CMN.error(str_msg)
-                    execution_result = 1
-                    break
+            tests_manager = LanguageTest(num_iterations, alphabet_klingon)
+            execution_result = tests_manager.process_success_tests()
             if execution_result == 0:
-                LOG_CMN.info("** Start failed Tests : all texts should be rejected")
-                for i in range(num_iterations):
-                    str_msg = "--- Test %d -----" % (i + 1)
-                    LOG_CMN.info(str_msg)
-                    string_size = random.randint(1, 100)
-                    input_text = generate_random_string_except_list(alphabet_klingon, string_size)
-                    exec_ret, hex_text= kinglon_lang.parse_text(input_text)
-                    if exec_ret == 1:
-                        str_msg = " - Erroneous text [%s] was detected" % input_text
-                        LOG_CMN.info(str_msg)
-                    else:
-                        str_msg = "Erroneous text [%s] was not detected" % input_text
-                        LOG_CMN.error(str_msg)
-                        execution_result = 1
-                        break
+                execution_result = tests_manager.process_failed_tests()
+                if execution_result == 0:
+                    execution_result = tests_manager.process_failed_tests(True)
     except ValueError as error:
         LOG_CMN.critical(str(error))
         execution_result = 1
